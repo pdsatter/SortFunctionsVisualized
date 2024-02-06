@@ -11,7 +11,7 @@ def fast_bubble(array, draw, canvas):
                 swap(array, j, j+1)
                 swapped = True
             
-            draw(canvas, array, pointer1_location=j, pointer2_location=j+1)
+            draw(canvas, array, red_pointer_locations=[j,j+1])
         
         if not swapped: 
             return

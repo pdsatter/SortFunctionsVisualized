@@ -11,7 +11,22 @@ from sortFunctions.fast_bubble import fast_bubble
 from sortFunctions.quicksort import quickSort
 
 canvas_width = 1000
-canvas_heigth = 500
+canvas_height = 500
+
+DEFAULT_TEXT = dedent("""
+# call draw every time pointer moves, with optional params: red_pointer_locations, green_pointer_locations 
+# draw(canvas, array) 
+
+# example function, bubble sort
+n = len(array)
+
+for i in range(n-1):
+    for j in range(0, n-i-1):
+        if array[j] > array[j+1]:
+            array[j], array[j+1] = array[j+1], array[j]
+        
+        draw(canvas, array, red_pointer_locations=[j, j+1], green_pointer_locations=[])
+""")
 
 def input_to_int(array):
     for i in range(len(array)):
@@ -20,9 +35,6 @@ def input_to_int(array):
     return array
 
 def get_sort_function_factory(func_name):
-    func_name = variable.get()
-    print(f'func name is {func_name}')
-
     if func_name == 'Bubble': return bubble
     if func_name == 'Fast Bubble': return fast_bubble
     if func_name == 'Quicksort': return quickSort
@@ -43,9 +55,9 @@ if __name__ == "__main__":
     root = tk.Tk()
 
     root.title("Visualize Sort")
-    root.geometry(f'{canvas_width+200}x{(canvas_heigth+700)}')
+    root.geometry(f'{canvas_width+200}x{(canvas_height+700)}')
 
-    canvas = TKCanvas(root, canvas_width, canvas_heigth)
+    canvas = TKCanvas(root, canvas_width, canvas_height)
     canvas.grid(row=0, column=0, columnspan=20)
     
     arrayEntryLabel = tk.Label(root, text="Array: ")
@@ -62,7 +74,7 @@ if __name__ == "__main__":
     variable = StringVar(root)
     variable.set(choices[0])
 
-    sortingFunctionsLabel = tk.Label(root, text="Array: ")
+    sortingFunctionsLabel = tk.Label(root, text="Function: ")
     sortingFunctionsLabel.grid(row=2, column=0, sticky="nsew")
 
     sortingFunctions = OptionMenu(root, variable, *choices)
@@ -70,21 +82,6 @@ if __name__ == "__main__":
 
     codeEntryLabel = tk.Label(root, text="Custom Sort Function: ")
     codeEntryLabel.grid(row=3, column=0, sticky="nsew")
-
-    DEFAULT_TEXT = dedent("""
-    # call draw every time pointer moves, with optional params: red_pointer_locations, green_pointer_locations 
-    # draw(canvas, array) 
-    
-    # example function, bubble sort
-    n = len(array)
-
-    for i in range(n-1):
-        for j in range(0, n-i-1):
-            if array[j] > array[j+1]:
-                array[j], array[j+1] = array[j+1], array[j]
-            
-            draw(canvas, array, red_pointer_locations=[j, j+1], green_pointer_locations=[])
-    """)
 
     codeEntry = tk.Text(root)
     codeEntry.insert(tk.END, DEFAULT_TEXT)
